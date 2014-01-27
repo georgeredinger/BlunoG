@@ -2,21 +2,19 @@ package com.georgeredinger.blunog;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
 import android.widget.Toast;
-import android.content.pm.PackageManager;
+import android.widget.TextView;
 
 
 public class MainActivity extends Activity {
+    String ble_state;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +32,9 @@ public class MainActivity extends Activity {
             msg = "Congrats! Bluetooth LE is supported on " +
                     "this device!";
         }
+        ble_state = msg;
+        final TextView mText = (TextView) findViewById(R.id.textView);
+        mText.setText(ble_state);
         Toast.makeText(this, msg,
                 Toast.LENGTH_SHORT).show();
 
