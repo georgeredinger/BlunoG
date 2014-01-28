@@ -12,6 +12,27 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import android.app.Activity;
+import android.app.ListActivity;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothManager;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
+import android.os.Handler;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+
 
 public class MainActivity extends Activity {
     String ble_state;
@@ -19,19 +40,40 @@ public class MainActivity extends Activity {
     @Override
     protected void onStop() {
         super.onStop();
-        android.util.Log.d("debug","onStop");
+        android.util.Log.d("bluno","onStop");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        android.util.Log.d("bluno","onResume");
+
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        android.util.Log.d("bluno","onReStart");
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        android.util.Log.d("debug","OnStart");
+        android.util.Log.d("bluno","onStart");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        android.util.Log.d("bluno","onPause");
+
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        android.util.Log.d("debug","OnDestroy");
+        android.util.Log.d("bluno","onDestroy");
 
     }
 
@@ -57,6 +99,21 @@ public class MainActivity extends Activity {
         mText.setText(ble_state);
         Toast.makeText(this, msg,
                 Toast.LENGTH_SHORT).show();
+
+        BluetoothManager manager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+        BluetoothAdapter mBluetoothAdapter = manager.getAdapter();
+        if (mBluetoothAdapter == null) {
+
+            Toast.makeText(this, "No bluetooth LE",
+                    Toast.LENGTH_SHORT).show();
+
+            // Device does not support Bluetooth
+      }else{
+            Toast.makeText(this, "And supports bluetooth this way too",
+                    Toast.LENGTH_SHORT).show();
+
+        }
+
 
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
