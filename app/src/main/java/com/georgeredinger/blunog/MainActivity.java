@@ -9,12 +9,31 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class MainActivity extends Activity {
     String ble_state;
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        android.util.Log.d("debug","onStop");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        android.util.Log.d("debug","OnStart");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        android.util.Log.d("debug","OnDestroy");
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +52,7 @@ public class MainActivity extends Activity {
                     "this device!";
         }
         ble_state = msg;
+        android.util.Log.d("debug",msg);
         final TextView mText = (TextView) findViewById(R.id.textView);
         mText.setText(ble_state);
         Toast.makeText(this, msg,
