@@ -82,7 +82,8 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         String msg;
-
+        String currentText;
+        currentText = "begin\n";
         //---check to determine whether BLE is supported on
         // the device---
         if (!getPackageManager().hasSystemFeature(
@@ -96,7 +97,9 @@ public class MainActivity extends Activity {
         ble_state = msg;
         android.util.Log.d("debug",msg);
         final TextView mText = (TextView) findViewById(R.id.textView);
-        mText.setText(ble_state);
+        currentText += "\n"+msg;
+        mText.setText(currentText);
+
         Toast.makeText(this, msg,
                 Toast.LENGTH_SHORT).show();
 
@@ -106,14 +109,20 @@ public class MainActivity extends Activity {
 
             Toast.makeText(this, "No bluetooth LE",
                     Toast.LENGTH_SHORT).show();
+            currentText += "\n"+"No Bluetooth LE";
+            mText.setText(currentText);
+
 
             // Device does not support Bluetooth
       }else{
             Toast.makeText(this, "And supports bluetooth this way too",
                     Toast.LENGTH_SHORT).show();
+            currentText += "\n"+"And supports Bluetooth LE this way too";
+            mText.setText(currentText);
 
         }
-
+        currentText += "\n"+"Now, lets scan for devices...";
+        mText.setText(currentText);
 
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
