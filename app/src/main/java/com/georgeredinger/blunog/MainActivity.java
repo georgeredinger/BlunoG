@@ -33,47 +33,46 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-
 public class MainActivity extends Activity {
     String ble_state;
 
     @Override
     protected void onStop() {
         super.onStop();
-        android.util.Log.d("bluno","onStop");
+        android.util.Log.d("bluno", "onStop");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        android.util.Log.d("bluno","onResume");
+        android.util.Log.d("bluno", "onResume");
 
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        android.util.Log.d("bluno","onReStart");
+        android.util.Log.d("bluno", "onReStart");
 
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        android.util.Log.d("bluno","onStart");
+        android.util.Log.d("bluno", "onStart");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        android.util.Log.d("bluno","onPause");
+        android.util.Log.d("bluno", "onPause");
 
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        android.util.Log.d("bluno","onDestroy");
+        android.util.Log.d("bluno", "onDestroy");
 
     }
 
@@ -95,9 +94,9 @@ public class MainActivity extends Activity {
                     "this device!";
         }
         ble_state = msg;
-        android.util.Log.d("debug",msg);
+        android.util.Log.d("debug", msg);
         final TextView mText = (TextView) findViewById(R.id.textView);
-        currentText += "\n"+msg;
+        currentText += "\n" + msg;
         mText.setText(currentText);
 
         Toast.makeText(this, msg,
@@ -109,19 +108,29 @@ public class MainActivity extends Activity {
 
             Toast.makeText(this, "No bluetooth LE",
                     Toast.LENGTH_SHORT).show();
-            currentText += "\n"+"No Bluetooth LE";
+            currentText += "\n" + "No Bluetooth LE";
             mText.setText(currentText);
 
 
             // Device does not support Bluetooth
-      }else{
+        } else {
             Toast.makeText(this, "And supports bluetooth this way too",
                     Toast.LENGTH_SHORT).show();
-            currentText += "\n"+"And supports Bluetooth LE this way too";
+            currentText += "\n" + "And supports Bluetooth LE this way too";
             mText.setText(currentText);
 
         }
-        currentText += "\n"+"Now, lets scan for devices...";
+
+        if (!mBluetoothAdapter.isEnabled()) {
+            currentText += "\n" + "Bluetooth is off";
+            //        Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            //  startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+        } else {
+            currentText += "\n" + "Bluetooth is on";
+        }
+        mText.setText(currentText);
+
+        currentText += "\n" + "Now, lets scan for devices...";
         mText.setText(currentText);
 
         if (savedInstanceState == null) {
@@ -162,7 +171,7 @@ public class MainActivity extends Activity {
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
+                                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             return rootView;
         }
