@@ -32,6 +32,19 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+class TTY {
+    private String currentText = "";
+    private TextView mText;
+
+    public  TTY(TextView tv) {
+        mText = tv;
+    }
+
+    public void out(String msg) {
+        currentText += "\n" + msg;
+        mText.setText(currentText);
+    }
+}
 
 public class MainActivity extends Activity {
     String ble_state;
@@ -80,27 +93,23 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         String msg;
         String currentText;
+
+        TTY tty = new TTY((TextView) findViewById(R.id.textView));
+
         currentText = "begin\n";
         //---check to determine whether BLE is supported on
         // the device---
         if (!getPackageManager().hasSystemFeature(
                 PackageManager.FEATURE_BLUETOOTH_LE)) {
-            msg = "Bluetooth LE not supported on this device";
+            tty.out("Bluetooth LE not supported on this device");
             finish();
         } else {
-            msg = "Congrats! Bluetooth LE is supported on " +
-                    "this device!";
+            tty.out("Congrats! Bluetooth LE is supported on " +
+                    "this device!");
         }
-        ble_state = msg;
-        android.util.Log.d("debug", msg);
-        final TextView mText = (TextView) findViewById(R.id.textView);
-        currentText += "\n" + msg;
-        mText.setText(currentText);
-
-        Toast.makeText(this, msg,
-                Toast.LENGTH_SHORT).show();
 
         BluetoothManager manager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
         BluetoothAdapter mBluetoothAdapter = manager.getAdapter();
@@ -108,30 +117,25 @@ public class MainActivity extends Activity {
 
             Toast.makeText(this, "No bluetooth LE",
                     Toast.LENGTH_SHORT).show();
-            currentText += "\n" + "No Bluetooth LE";
-            mText.setText(currentText);
+            tty.out("No Bluetooth LE");
+
 
 
             // Device does not support Bluetooth
         } else {
-            Toast.makeText(this, "And supports bluetooth this way too",
-                    Toast.LENGTH_SHORT).show();
-            currentText += "\n" + "And supports Bluetooth LE this way too";
-            mText.setText(currentText);
+            tty.out("And supports Bluetooth LE this way too");
 
         }
 
         if (!mBluetoothAdapter.isEnabled()) {
-            currentText += "\n" + "Bluetooth is off";
+            tty.out("Bluetooth is off");
             //        Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             //  startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
         } else {
-            currentText += "\n" + "Bluetooth is on";
+           tty.out("Bluetooth is on");
         }
-        mText.setText(currentText);
 
-        currentText += "\n" + "Now, lets scan for devices...";
-        mText.setText(currentText);
+        tty.out("Now, lets scan for devices...");
 
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
