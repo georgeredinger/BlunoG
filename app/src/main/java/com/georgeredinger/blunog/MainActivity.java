@@ -36,7 +36,7 @@ class TTY {
     private String currentText = "";
     private TextView mText;
 
-    public  TTY(TextView tv) {
+    public TTY(TextView tv) {
         mText = tv;
     }
 
@@ -45,6 +45,8 @@ class TTY {
         mText.setText(currentText);
     }
 }
+
+
 
 public class MainActivity extends Activity {
     String ble_state;
@@ -120,7 +122,6 @@ public class MainActivity extends Activity {
             tty.out("No Bluetooth LE");
 
 
-
             // Device does not support Bluetooth
         } else {
             tty.out("And supports Bluetooth LE this way too");
@@ -129,13 +130,17 @@ public class MainActivity extends Activity {
 
         if (!mBluetoothAdapter.isEnabled()) {
             tty.out("Bluetooth is off");
-            //        Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            //  startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableBtIntent, 7);//why is 7 here, why does it work?
         } else {
-           tty.out("Bluetooth is on");
+            tty.out("Bluetooth is on");
         }
 
         tty.out("Now, lets scan for devices...");
+
+        mBluetoothAdapter.startLeScan(mLeScanCallback);
+
+
 
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
